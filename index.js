@@ -3,7 +3,9 @@ var appendPointDataSetConfig = function appendPointDataSetConfig(req, res, start
     // Also it calls updateResponse function if dynamic response is required
     //var endPoint = originalUrl
     originalUrl=req.originalUrl;
-    var responseTime, index, statusCode,responseSuccessData,contentType;
+    var  index,contentType;
+    responseObject={}
+
     for (let i = 0; i < requestCount; i++) {
       //loggingEnable = apiData[i].loggingEnable;
       var regex = new RegExp(mocks[i].endPoint);
@@ -11,9 +13,7 @@ var appendPointDataSetConfig = function appendPointDataSetConfig(req, res, start
       console.log("qparams length " +mocks[i].qparams.length)
       console.log("requestbodies length " +mocks[i].requestBody.length)
       console.log("responseheaders length " +mocks[i].responseHeaders.length)
-  
       if (originalUrl.match(regex) && mocks[i].httpMethod==req.method) {
-        responseObject={}
         headersLength = mocks[i].headers.length;
         queryParamLength = mocks[i].qparams.length;
         requestBodyLength =mocks[i].requestBody.length
