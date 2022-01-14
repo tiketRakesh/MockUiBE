@@ -27,7 +27,7 @@ const catchAsync = require('./utils/catchAsync');
 var xml2js = require('xml2js');
 
 
-mongoose.connect('mongodb://root:example@localhost:27017', {
+mongoose.connect('mongodb://localhost:27017/mocks', {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
