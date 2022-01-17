@@ -22,7 +22,7 @@ module.exports ={
                     return null;
                 }
             } else {
-                return key;
+                return null;
             }
         }
         return jsonData;

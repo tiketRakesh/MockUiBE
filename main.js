@@ -33,6 +33,12 @@ mongoose.connect('mongodb://localhost:27017/mocks', {
     useUnifiedTopology: true
 });
 
+/* mongoose.connect('mongodb://root:example@localhost:27017', {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true
+});
+ */
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
