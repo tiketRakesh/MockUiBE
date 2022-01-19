@@ -15,7 +15,7 @@ module.exports ={
                                 res.set('Content-Type', 'application/json; charset=utf-8');
                         }
                         if(statusCode==null){
-                                res.status('200');
+                                res.status('400');
                                 console.log("No mocked data found");
                                 res.send("No mocked data found");
                         }else{
