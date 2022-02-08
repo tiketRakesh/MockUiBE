@@ -1,8 +1,13 @@
 //global variables which are accessible in all files, all library are imported in main file
 const
   express = require('express'),
-  app = express(),
-  PORT = process.env.PORT || 3001;
+  app = express();
+
+const http = require('http');
+const https = require('https');
+const fs = require('fs');
+const httpPort = 3001;
+const httpsPort = 3002;
 bodyParser = require('body-parser');
 appendpointDataSetConfig = require("./index.js");
 dynamicResponse = require("./dynamicResponse.js");
@@ -13,12 +18,10 @@ matcherUtil = require("./matcherUtil.js");
 log = require("./log.js");
 requestCount =0;
 mocks="" ;
-fs = require('fs');
 jsonQ = require("jsonq");//used for json parsing
 random = require('random');
 parser = require('xml2json'); //Used for XML request parsing
 xmlparser = require('express-xml-bodyparser');
-global.PORT = PORT
 const mongoose = require('mongoose');
 const mockDb = require('./models/mockSchema');
 const { mockSchema } = require('./schemas.js');
@@ -26,6 +29,13 @@ const ExpressError = require('./utils/ExpressError');
 const catchAsync = require('./utils/catchAsync');
 var xml2js = require('xml2js');
 
+var key = fs.readFileSync(__dirname + '/certsFiles/selfsigned.key');
+var cert = fs.readFileSync(__dirname + '/certsFiles/selfsigned.crt');
+
+var credentials = {
+  key: key,
+  cert: cert
+};
 
 mongoose.connect('mongodb://localhost:27017/mocks', {
     useNewUrlParser: true,
@@ -37,8 +47,8 @@ mongoose.connect('mongodb://localhost:27017/mocks', {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
-});
- */
+}); */
+
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
@@ -130,8 +140,16 @@ app.use((err, req, res, next) => {
   res.status(statusCode).send(err);
 })
 
-app.listen(PORT, function () {
- // validate();
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
+
+
+httpServer.listen(httpPort, () => {
+  console.log("Http server listing on port : " + httpPort)
+});
+
+httpsServer.listen(httpsPort, () => {
+  console.log("Https server listing on port : " + httpsPort)
 });
 // For pact provider verification
 // module.exports = app
