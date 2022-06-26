@@ -3,8 +3,8 @@ const
   express = require('express'),
   app = express();
 
-const http = require('http');
-const https = require('https');
+http = require('http');
+https = require('https');
 const fs = require('fs');
 const httpPort = 3001;
 const httpsPort = 3002;
@@ -28,6 +28,9 @@ const { mockSchema } = require('./schemas.js');
 const ExpressError = require('./utils/ExpressError');
 const catchAsync = require('./utils/catchAsync');
 var xml2js = require('xml2js');
+httpUtil = require("./httpUtil.js");
+sendCallback=require("./sendCallback.js");
+
 
 var key = fs.readFileSync(__dirname + '/certsFiles/selfsigned.key');
 var cert = fs.readFileSync(__dirname + '/certsFiles/selfsigned.crt');
@@ -37,17 +40,17 @@ var credentials = {
   cert: cert
 };
 
-mongoose.connect('mongodb://localhost:27017/mocks', {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true
-});
-
 /* mongoose.connect('mongodb://root:example@localhost:27017', {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
 }); */
+
+mongoose.connect('mongodb://root:example@localhost:27017', {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true
+});
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
@@ -118,17 +121,17 @@ app.delete('/mocks/:id', catchAsync(async (req, res) => {
 }));
 
 
-//This will handle all POST calls
+//This will handle all GET and POST calls
 app.get('*', async (req, res) => {
   start_time = new Date().getTime();
-   mocks = await mockDb.find({}).populate('headers').populate('qparams').populate('requestBody').populate('responseHeaders');
+   mocks = await mockDb.find({}).populate('headers').populate('qparams').populate('requestBody').populate('responseHeaders').populate('callBack').populate('dynamicResponse').populate('dynamicRequestCallback');
    requestCount=mocks.length;
    appendpointDataSetConfig(req, res, start_time);
 });
 
 app.post('*', async (req, res) => {
   start_time = new Date().getTime();
-   mocks = await mockDb.find({}).populate('headers').populate('qparams').populate('requestBody').populate('responseHeaders');
+   mocks = await mockDb.find({}).populate('headers').populate('qparams').populate('requestBody').populate('responseHeaders').populate('callBack').populate('dynamicResponse').populate('dynamicRequestCallback');
    requestCount=mocks.length;
    appendpointDataSetConfig(req, res, start_time);
 });

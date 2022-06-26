@@ -1,3 +1,5 @@
+const dynamicResponse = require("./dynamicResponse");
+
 var appendPointDataSetConfig = function appendPointDataSetConfig(req, res, start_time) {
     //This function reads the configuration and sets all variable values at the end it calls sendResponse function.
     // Also it calls updateResponse function if dynamic response is required
@@ -24,47 +26,47 @@ var appendPointDataSetConfig = function appendPointDataSetConfig(req, res, start
             qParamMatched= matcherUtil.qParamMatched(req,queryParamLength,mocks[i])
             reqBodyMatched= matcherUtil.reqBodyMatched(req,requestBodyLength,mocks[i])
             if(headerMatched && qParamMatched && reqBodyMatched ){
-                responseObject=matcherUtil.prepareResponseObject(res,mocks[i],responseHeadersLength,i)
+                responseObject=matcherUtil.prepareResponseObjectAndCheckForCallback(req,res,mocks[i],responseHeadersLength,i)
                 break;
               }
         }else if(headersLength>0 && queryParamLength>0){
             headerMatched= matcherUtil.headersMatched(req,headersLength,mocks[i])
             qParamMatched= matcherUtil.qParamMatched(req,queryParamLength,mocks[i])
             if(headerMatched && qParamMatched){
-                responseObject=matcherUtil.prepareResponseObject(res,mocks[i],responseHeadersLength,i)
+                responseObject=matcherUtil.prepareResponseObjectAndCheckForCallback(req,res,mocks[i],responseHeadersLength,i)
                 break;
               }
         }else if(headersLength>0 && requestBodyLength>0){
             headerMatched= matcherUtil.headersMatched(req,headersLength,mocks[i])
             reqBodyMatched= matcherUtil.reqBodyMatched(req,requestBodyLength,mocks[i])
             if(headerMatched && reqBodyMatched){
-                responseObject=matcherUtil.prepareResponseObject(res,mocks[i],responseHeadersLength,i)
+                responseObject=matcherUtil.prepareResponseObjectAndCheckForCallback(req,res,mocks[i],responseHeadersLength,i)
                 break;
               }
         }else if(queryParamLength>0 && requestBodyLength>0){
             qParamMatched= matcherUtil.qParamMatched(req,queryParamLength,mocks[i])
             reqBodyMatched= matcherUtil.reqBodyMatched(req,requestBodyLength,mocks[i])
             if(qParamMatched && reqBodyMatched){
-                responseObject=matcherUtil.prepareResponseObject(res,mocks[i],responseHeadersLength,i)
+                responseObject=matcherUtil.prepareResponseObjectAndCheckForCallback(req,res,mocks[i],responseHeadersLength,i)
                 break;
               }
         }else if(headersLength>0){
           allHeadersValueMatched= matcherUtil.headersMatched(req,headersLength,mocks[i])
           if(allHeadersValueMatched){
-            responseObject=matcherUtil.prepareResponseObject(res,mocks[i],responseHeadersLength,i)
+            responseObject=matcherUtil.prepareResponseObjectAndCheckForCallback(req,res,mocks[i],responseHeadersLength,i)
             break;
           }
         }else if(queryParamLength>0){
           allValueMatched= matcherUtil.qParamMatched(req,queryParamLength,mocks[i])
           if(allValueMatched){
-            responseObject=matcherUtil.prepareResponseObject(res,mocks[i],responseHeadersLength,i)
+            responseObject=matcherUtil.prepareResponseObjectAndCheckForCallback(req, res,mocks[i],responseHeadersLength,i)
             break;
           } 
         
         }else if(requestBodyLength>0 && req.body!=null){
           allValueMatched= matcherUtil.reqBodyMatched(req,requestBodyLength,mocks[i])
           if(allValueMatched){
-            responseObject=matcherUtil.prepareResponseObject(res,mocks[i],responseHeadersLength,i)
+            responseObject=matcherUtil.prepareResponseObjectAndCheckForCallback(req, res,mocks[i],responseHeadersLength,i)
             break;
           } 
         }else {
@@ -77,10 +79,16 @@ var appendPointDataSetConfig = function appendPointDataSetConfig(req, res, start
             for(let a= 0 ;a<responseHeadersLength ;a++){
               res.header(mocks[i].responseHeaders[a].key,mocks[i].responseHeaders[a].value)
             }
-            }
+          }
+          if(mocks[i].callBack.length>0){
+            sendCallback.callback(req,mocks[i],start_time);
+          }
+          dynamicResponselength =mocks[i].dynamicResponse.length;
+          if(dynamicResponselength>0){
+            responseObject.responseSuccessData=matcherUtil.updateResponseBody(req,mocks[i] ,dynamicResponselength)
+          }
           break;
-        }
-        
+        }     
       }
     }
     //contentType = response.getHeader(req);

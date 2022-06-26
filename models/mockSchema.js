@@ -4,6 +4,9 @@ const Header = require('./header')
 const QParam = require('./qparam')
 const RequestBody = require('./requestBody')
 const ResponseHeader = require('./responseHeader')
+const CallBack = require('./callBack')
+const DynamicResponse = require('./dynamicResponse')
+const DynamicRequestCallback = require('./dynamicRequestCallback')
 
 
 const mockSchema = new Schema({
@@ -41,14 +44,63 @@ const mockSchema = new Schema({
         }
 
     ],
+    dynamicResponse:[
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'DynamicResponse' 
+        }
+
+    ],
+    dynamicRequestCallback:[
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'DynamicRequestCallback' 
+        }
+    ],
     module:[
         {
             type: Schema.Types.ObjectId,
             ref: 'Module' 
         }
 
+    ],
+    callBack :[
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'CallBack'   
+        }
     ]
 });
+
+mockSchema.post('findOneAndDelete', async function (doc) {
+    if (doc) {
+        await DynamicRequestCallback.deleteMany({
+            _id: {
+                $in: doc.dynamicRequestCallback
+            }
+        })
+    }
+})
+
+mockSchema.post('findOneAndDelete', async function (doc) {
+    if (doc) {
+        await DynamicResponse.deleteMany({
+            _id: {
+                $in: doc.dynamicResponse
+            }
+        })
+    }
+})
+
+mockSchema.post('findOneAndDelete', async function (doc) {
+    if (doc) {
+        await CallBack.deleteMany({
+            _id: {
+                $in: doc.callBack
+            }
+        })
+    }
+})
 
 mockSchema.post('findOneAndDelete', async function (doc) {
     if (doc) {
