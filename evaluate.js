@@ -57,5 +57,23 @@ module.exports =
       //This function takes the request object named as req and parses the endpoint to find the value of req_key in request parameters
       {
             return req.params[0].split('/')[i];
+      },
+      trimingNonSignificantZero: function (req, req_key)
+      // 
+      {
+            var id = jsonQ(JSON.stringify(req.body));
+            val = id.find(req_key).value();
+            //console.log(" value is "+ val);
+
+            //remove the trailing zeros 
+            valTrail=val.toString().slice(0, -2);
+           // console.log(" value after removing tariling zeros "+ valTrail);
+            //remove the leading zeros 
+            var newVal =valTrail.toString().replace(/^0+/, '');
+            return newVal;
       }
 }
+
+
+
+

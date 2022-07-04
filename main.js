@@ -11,7 +11,7 @@ const httpsPort = 3002;
 bodyParser = require('body-parser');
 appendpointDataSetConfig = require("./index.js");
 dynamicResponse = require("./dynamicResponse.js");
-response = require("./evaluate.js");
+evaluate = require("./evaluate.js");
 send_res = require("./sendResponse.js");
 util = require("./util.js");
 matcherUtil = require("./matcherUtil.js");
@@ -40,17 +40,17 @@ var credentials = {
   cert: cert
 };
 
-/* mongoose.connect('mongodb://root:example@localhost:27017', {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true
-}); */
-
-mongoose.connect('mongodb://root:example@localhost:27017', {
+mongoose.connect('mongodb://localhost:27017/mocks', {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
 });
+
+// mongoose.connect('mongodb://root:example@localhost:27017', {
+//     useNewUrlParser: true,
+//     useCreateIndex: true,
+//     useUnifiedTopology: true
+// });
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));

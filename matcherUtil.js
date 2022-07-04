@@ -81,9 +81,16 @@ updateRequestBodyCallback :function (req, mock, dynamicRequestCBlength) {
         for(let i =0 ;i<dynamicRequestCBlength; i++ ){
            reqPath=mock.dynamicRequestCallback[i].key;
            reqPathCB=mock.dynamicRequestCallback[i].value;
-           vauleToUpdate =util.jsonPathToValue(req.body,reqPath);
+           customMethod=mock.dynamicRequestCallback[i].method;
+           if(customMethod){
+             console.log("Custom method found for the callback request "+customMethod);
+             vauleToUpdate=eval(customMethod);
+             console.log("value to  update "+vauleToUpdate);
+           }else{
+            vauleToUpdate =util.jsonPathToValue(req.body,reqPath);
+           }
            vauleToBeUpdate =util.jsonPathToValue(json,reqPathCB);
-           console.log("value to  updated "+vauleToUpdate);
+           console.log("value to  update "+vauleToUpdate);
            console.log("value to be updated "+vauleToBeUpdate)
            json=matcherUtil.updateObject(json,vauleToUpdate,reqPathCB,fileExtension);  
       }
