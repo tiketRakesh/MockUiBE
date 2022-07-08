@@ -9,6 +9,8 @@ module.exports =
       console.log("===============================================");
       console.log(headerString);
 
+      var protocol= apiData.callBack[0].protocol;
+
       var options = {
         "host": apiData.callBack[0].host,
         "port": apiData.callBack[0].port,
@@ -37,7 +39,12 @@ module.exports =
         var httpMethod = apiData.callBack[0].httpMethod;
         switch(httpMethod){
            case 'POST':
-            httpUtil.post(options,reqBodyCB);
+            if(protocol=='https') {
+              httpsUtil.post(options,reqBodyCB);
+            }else{
+              httpUtil.post(options,reqBodyCB);
+            }
+            
             break;
         }
        console.log(/*Date.now() + ", " + "s*/" Success" + ", " + apiData.endPoint + ", " + (new Date().getTime() - start_time) + ", ");

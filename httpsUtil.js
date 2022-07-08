@@ -1,7 +1,7 @@
 module.exports =
 {
      post: function(options,requestData){
-        const request = http.request(options, (res) => {
+        const request = https.request(options, (res) => {
             let data = '';  
             res.on('data', (chunk) => {
               data += chunk;
