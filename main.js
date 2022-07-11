@@ -29,6 +29,8 @@ const ExpressError = require('./utils/ExpressError');
 const catchAsync = require('./utils/catchAsync');
 var xml2js = require('xml2js');
 httpUtil = require("./httpUtil.js");
+httpsUtil = require("./httpsUtil.js");
+
 sendCallback=require("./sendCallback.js");
 
 
@@ -46,11 +48,11 @@ mongoose.connect('mongodb://localhost:27017/mocks', {
     useUnifiedTopology: true
 });
 
-// mongoose.connect('mongodb://root:example@localhost:27017', {
-//     useNewUrlParser: true,
-//     useCreateIndex: true,
-//     useUnifiedTopology: true
-// });
+/* mongoose.connect('mongodb://root:example@localhost:27017', {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true
+}); */
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));

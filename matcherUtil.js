@@ -57,9 +57,15 @@ updateResponseBody :function (req, mock, dynamicResponselength) {
             for(let i =0 ;i<dynamicResponselength; i++ ){
                reqPath=mock.dynamicResponse[i].key;
                resPath=mock.dynamicResponse[i].value;
-               vauleToUpdate =util.jsonPathToValue(req.body,reqPath);
+               method =mock.dynamicResponse[i].method;
+               if(method){
+                console.log("Custom method found for the dynamic  response "+method);
+                vauleToUpdate=eval(method);
+                console.log("value to  updated "+vauleToUpdate);
+               }else{
+                vauleToUpdate =util.jsonPathToValue(req.body,reqPath);
+               }  
                vauleToBeUpdate =util.jsonPathToValue(json,resPath);
-               console.log("value to  updated "+vauleToUpdate);
                console.log("value to be updated "+vauleToBeUpdate)
                json=matcherUtil.updateObject(json,vauleToUpdate,resPath,fileExtension);  
           }

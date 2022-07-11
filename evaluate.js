@@ -71,6 +71,16 @@ module.exports =
             //remove the leading zeros 
             var newVal =valTrail.toString().replace(/^0+/, '');
             return newVal;
+      },
+      convertingIntegerToString: function (req, req_key)
+      // 
+      {
+            var id = jsonQ(JSON.stringify(req.body));
+            val = id.find(req_key).value();
+            //console.log(" value is "+ val);
+            //convert the integer to string 
+
+            return val.toString();
       }
 }
 
