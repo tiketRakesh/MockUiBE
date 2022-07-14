@@ -15,7 +15,7 @@ module.exports =
         "host": apiData.callBack[0].host,
         "port": apiData.callBack[0].port,
         "path": apiData.callBack[0].path,
-        "method": apiData.callBack[0].method,
+        "method": apiData.callBack[0].httpMethod,
         "headers":headers
       }
       console.log(JSON.stringify(options));

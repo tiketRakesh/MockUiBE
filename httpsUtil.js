@@ -10,9 +10,8 @@ module.exports =
               console.log(JSON.parse(data));
             });
           });
-          request.write(JSON.stringify(requests));
-          console.log("=======rakesh=======");
-          console.log(request.outputData);
+          request.write(JSON.stringify(requestData));
+          console.log(request);
           request.end();
           request.on('error', (err) => {
            console.error(`Encountered an error trying to make a request: ${err.message}`);
