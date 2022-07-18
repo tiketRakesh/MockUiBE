@@ -24,7 +24,7 @@ module.exports =
       var dynamicCallabckReqlength=apiData.dynamicRequestCallback.length;
 
       if(dynamicCallabckReqlength>0){
-        reqBodyCB=JSON.stringify(matcherUtil.updateRequestBodyCallback(req,apiData ,dynamicCallabckReqlength));
+        reqBodyCB=matcherUtil.updateRequestBodyCallback(req,apiData ,dynamicCallabckReqlength);
         console.log(reqBodyCB);
       }
       console.log("===========================================================================================");

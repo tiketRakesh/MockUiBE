@@ -70,7 +70,7 @@ module.exports =
            // console.log(" value after removing tariling zeros "+ valTrail);
             //remove the leading zeros 
             var newVal =valTrail.toString().replace(/^0+/, '');
-            return newVal;
+            return Number(newVal);
       },
       convertingIntegerToString: function (req, req_key)
       // 
