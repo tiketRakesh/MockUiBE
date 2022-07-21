@@ -30,7 +30,7 @@ const catchAsync = require('./utils/catchAsync');
 var xml2js = require('xml2js');
 httpUtil = require("./httpUtil.js");
 httpsUtil = require("./httpsUtil.js");
-
+crypto = require('crypto');
 sendCallback=require("./sendCallback.js");
 
 
@@ -66,6 +66,8 @@ db.once("open", () => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(xmlparser());
+app.use(bodyParser.text({type:"*/*"}));
+
 stringify = require('json-stringify-safe');
 
 const validateMock = (req, res, next) => {

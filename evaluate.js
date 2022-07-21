@@ -81,6 +81,37 @@ module.exports =
             //convert the integer to string 
 
             return val.toString();
+      },
+      decodeRequestBodyAndFindValueString: function (req, req_key)
+      // 
+      {
+            let data = req.body.toString();
+            let buff = new Buffer(data, 'base64');
+            let text = buff.toString('ascii');
+            var id = jsonQ(text);
+            val = id.find(req_key).value();
+            //console.log(" value is "+ val);
+            //convert the integer to string 
+            return val.toString();
+      },
+      decodeRequestBodyAndFindValueInteger: function (req, req_key)
+      // 
+      {
+            let data = req.body.toString();
+            let buff = new Buffer(data, 'base64');
+            let text = buff.toString('ascii');
+            var id = jsonQ(text);
+            val = id.find(req_key).value();
+            //console.log(" value is "+ val);
+            //convert the integer to string 
+            return Number(val);
+      },
+      generateSakukuSignature: function(req){
+            accessToken = "5c562d58-844d-4129-b61b-74250f5ade0e"
+            paymentId = "E112D0E6B38459D1E05400144FFBA584"
+            raw = accessToken + req.body.TransactionID + Number(req.body.Amount) + ".00" + paymentId
+            const signature = crypto.createHash('sha256').update(raw).digest('hex');
+            return signature
       }
 }
 
