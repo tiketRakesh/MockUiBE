@@ -13,6 +13,12 @@ module.exports ={
         path = path.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
         path = path.replace(/^\./, ''); // strip a leading dot
         var pathArray = path.split('.');
+
+        var keys = Object.keys(jsonData);
+        for (var i = 0; i < keys.length; i++) {
+          console.log(jsonData[keys[i]]);
+        }
+
         for (var i = 0, n = pathArray.length; i < n; ++i) {
             var key = pathArray[i];
             if (key in jsonData) {
@@ -33,5 +39,29 @@ module.exports ={
         value = id.find(key)[0] 
         console.log(value)
         return value
+    },
+    onExtract :function(key, data){
+        if (util.isObject(data)) {
+            for (let item in data) {
+              if (key === item) {
+                return data[item];
+              }
+              const res = util.onExtract(key, data[item]);
+              if (res !== null) return res;
+            }
+          }
+          if (util.isArray(data)) {
+            for (let item of data) {
+              const res = util.onExtract(key, item);
+              if (res !== null) return res;
+            }
+          }
+          return null;
+    },
+    isObject :function(obj){
+        return Object.prototype.toString.call(obj) === "[object Object]";
+    },
+    isArray :function(arr){
+        return Object.prototype.toString.call(arr) === "[object Array]";
     }
 }

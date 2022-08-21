@@ -7,7 +7,7 @@ module.exports =
               data += chunk;
             });
             res.on('close', () => {
-              console.log(JSON.parse(data));
+              console.log(res.statusCode);
             });
           });
           request.write(JSON.stringify(requestData));

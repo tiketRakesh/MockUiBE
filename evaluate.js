@@ -85,9 +85,9 @@ module.exports =
       decodeRequestBodyAndFindValueString: function (req, req_key)
       // 
       {
-       const keyApp = 'GSDganoBT8PvP4YE3sMpHo12EpnY9$4y'
+            const keyApp = 'GSDganoBT8PvP4YE3sMpHo12EpnY9$4y'
             const algorithm = 'aes-256-cbc'
-	    console.log(req.headers['timestamp'])  
+            console.log(req.headers['timestamp'])
             const timestamp = req.headers['timestamp']
             const timestampLength = 16
             let iv=timestamp.padEnd(timestampLength, '0')
@@ -105,9 +105,9 @@ module.exports =
       decodeRequestBodyAndFindValueInteger: function (req, req_key)
       // 
       {
-       const keyApp = 'GSDganoBT8PvP4YE3sMpHo12EpnY9$4y'
+            const keyApp = 'GSDganoBT8PvP4YE3sMpHo12EpnY9$4y'
             const algorithm = 'aes-256-cbc'
-	    console.log(req.headers['timestamp'])  
+            console.log(req.headers['timestamp'])
             const timestamp = req.headers['timestamp']
             const timestampLength = 16
             let iv=timestamp.padEnd(timestampLength, '0')
@@ -128,6 +128,30 @@ module.exports =
             raw = accessToken + req.body.TransactionID + Number(req.body.Amount) + ".00" + paymentId
             const signature = crypto.createHash('sha256').update(raw).digest('hex');
             return signature
+      },
+      generateKlikPayAuthKey: function(req){
+            transactionNo= req.body.transactionNo;
+            console.log(" transactionNo is "+ transactionNo);
+            const klikPayKeyId = "303279334B546C4B6F52506530306965"
+            const klikPayCode = "1234567890".padEnd(10,'0')
+            transactionNo = transactionNo.padEnd(18, 'A')
+            const currency = "IDR".padEnd(5, '1')
+            const transactionDate = "1970-01-01 00:00:00".padStart(19, 'C')
+            let keyId1 = klikPayKeyId.padEnd(32, 'E')
+            let keyId2 = keyId1.padEnd(48, keyId1)
+            let raw = klikPayCode + transactionNo + currency + transactionDate + keyId1
+            let md5 = crypto.createHash('md5').update(raw).digest('hex')
+            let authKey = md5.toUpperCase()
+            authKey = evaluate.encrypt3DES(keyId2, authKey)
+            console.log(" Authentication key  is "+ authKey.toUpperCase());
+            return authKey.toUpperCase()
+      },
+      encrypt3DES : function(key,data){
+            const algorithm = 'des-ede3'
+            let keySpec = Buffer.from(key, 'hex').toString('utf8')
+            let cipher = crypto.createCipheriv(algorithm, keySpec, null)
+            let encrypted = cipher.update(data, 'hex')
+            return encrypted.toString('hex')
       }
 }
 

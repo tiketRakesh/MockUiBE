@@ -74,13 +74,37 @@ updateResponseBody :function (req, mock, dynamicResponselength) {
 },
 updateRequestBodyCallback :function (req, mock, dynamicRequestCBlength) {
     //console.log("test " +mocks[i].requestBody)
-    fileExtension="";    
+    fileExtension=""; 
+    
+    //to do 
+    // change the if condition , it should not be on content type .. as most of the code in if and else condition is repeating 
     if(mock.contentType=='application/xml'){
          //need to fix the xml part
          fileExtension='xml';
-         vauleToUpdate =util.xmlPathToValue(req.body,reqPath);
-         json = JSON.parse(parser.toJson(req.body, {reversible: true})); 
-         json=matcherUtil.updateObject(json,vauleToUpdate,resPath,fileExtension);  
+         json = JSON.parse(parser.toJson(mock.callBack[0].requestBody, {reversible: true,sanitize: true})); 
+       
+         for(let i =0 ;i<dynamicRequestCBlength; i++ ){
+            reqPath=mock.dynamicRequestCallback[i].key;
+            reqPathCB=mock.dynamicRequestCallback[i].value;
+            customMethod=mock.dynamicRequestCallback[i].method;
+            if(customMethod){
+              console.log("Custom method found for the callback request "+customMethod);
+              vauleToUpdate=eval(customMethod);
+              console.log("value to  update "+vauleToUpdate);
+            }else{
+             vauleToUpdate =util.jsonPathToValue(req.body,reqPath);
+            }
+            console.log(JSON.stringify(json));
+            vauleToBeUpdate =util.onExtract(reqPathCB,json);
+            //to do 
+            //handle this special case from the UI side .
+            vauleToBeUpdate=vauleToBeUpdate['$t'];
+            console.log("value to  update "+vauleToUpdate);
+            console.log("value to be updated "+vauleToBeUpdate);
+            
+            json=matcherUtil.updateObject(json,vauleToUpdate,reqPathCB,"json");  
+       }
+       json=matcherUtil.updateObject(json,vauleToUpdate,reqPathCB,fileExtension);  
       }else{
         json= JSON.parse(mock.callBack[0].requestBody);
        
