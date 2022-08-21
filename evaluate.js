@@ -85,21 +85,37 @@ module.exports =
       decodeRequestBodyAndFindValueString: function (req, req_key)
       // 
       {
-            let data = req.body.toString();
-            let buff = new Buffer(data, 'base64');
-            let text = buff.toString('ascii');
+       const keyApp = 'GSDganoBT8PvP4YE3sMpHo12EpnY9$4y'
+            const algorithm = 'aes-256-cbc'
+	    console.log(req.headers['timestamp'])  
+            const timestamp = req.headers['timestamp']
+            const timestampLength = 16
+            let iv=timestamp.padEnd(timestampLength, '0')
+            let decipher = crypto.createDecipheriv(algorithm, Buffer.from(keyApp), iv)
+            let encrypted = Buffer.from(req.body.toString(), 'base64')
+            let decrypted = decipher.update(encrypted)
+            decrypted = Buffer.concat([decrypted, decipher.final()])
+            text = decrypted.toString()
             var id = jsonQ(text);
             val = id.find(req_key).value();
             //console.log(" value is "+ val);
             //convert the integer to string 
-            return val.toString();
+            return val.toString() ;
       },
       decodeRequestBodyAndFindValueInteger: function (req, req_key)
       // 
       {
-            let data = req.body.toString();
-            let buff = new Buffer(data, 'base64');
-            let text = buff.toString('ascii');
+       const keyApp = 'GSDganoBT8PvP4YE3sMpHo12EpnY9$4y'
+            const algorithm = 'aes-256-cbc'
+	    console.log(req.headers['timestamp'])  
+            const timestamp = req.headers['timestamp']
+            const timestampLength = 16
+            let iv=timestamp.padEnd(timestampLength, '0')
+            let decipher = crypto.createDecipheriv(algorithm, Buffer.from(keyApp), iv)
+            let encrypted = Buffer.from(req.body.toString(), 'base64')
+            let decrypted = decipher.update(encrypted)
+            decrypted = Buffer.concat([decrypted, decipher.final()])
+            text = decrypted.toString()
             var id = jsonQ(text);
             val = id.find(req_key).value();
             //console.log(" value is "+ val);
