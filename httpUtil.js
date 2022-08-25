@@ -7,10 +7,21 @@ module.exports =
               data += chunk;
             });
             res.on('close', () => {
-              console.log(JSON.parse(data));
+              if(JSON.stringify(options.headers).includes('xml')){
+                console.log(res.statusCode);
+                console.log(data);              
+              }else{
+                console.log(res.statusCode);
+                console.log(JSON.parse(data));
+              } 
             });
           });
-          request.write(JSON.stringify(requestData));
+          
+          if(JSON.stringify(options.headers).includes('xml')){
+            request.write(requestData);
+          }else{
+            request.write(JSON.stringify(requestData));
+          } 
           console.log(request);
           request.end();
           request.on('error', (err) => {

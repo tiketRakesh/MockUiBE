@@ -88,6 +88,10 @@ updateRequestBodyCallback :function (req, mock, dynamicRequestCBlength) {
             reqPathCB=mock.dynamicRequestCallback[i].value;
             customMethod=mock.dynamicRequestCallback[i].method;
             if(customMethod){
+               if(customMethod.includes("SOAP")){
+                json= eval(customMethod);
+                return json;
+              }
               console.log("Custom method found for the callback request "+customMethod);
               vauleToUpdate=eval(customMethod);
               console.log("value to  update "+vauleToUpdate);
