@@ -154,7 +154,7 @@ module.exports =
             return encrypted.toString('hex')
       },
       klikPayRequestBodySOAP : function(req,reqPath){
-            body ='<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><tiket:PaymentIPAY xmlns:tiket="urn:www.tiket.com"><InputPaymentIPAY><klikPayCode>1234567890</klikPayCode><transactionNo>txn1</transactionNo><transactionDate>2022-06-01 16:46:00</transactionDate><currency>IDR</currency><totalAmount>2000</totalAmount><payType>01</payType><approvalCode><fullTransaction>true</fullTransaction><installmentTransaction>false</installmentTransaction></approvalCode><authKey>auth1</authKey><additionalData></additionalData></InputPaymentIPAY></tiket:PaymentIPAY></soap:Body></soap:Envelope>'
+            body ='<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><tiket:PaymentIPAY xmlns:tiket="urn:www.tiket.com"><InputPaymentIPAY><klikPayCode>1234567890</klikPayCode><transactionNo>txn1</transactionNo><transactionDate>1970-01-01 00:00:00</transactionDate><currency>IDR</currency><totalAmount>2000</totalAmount><payType>01</payType><approvalCode><fullTransaction>true</fullTransaction><installmentTransaction>false</installmentTransaction></approvalCode><authKey>auth1</authKey><additionalData></additionalData></InputPaymentIPAY></tiket:PaymentIPAY></soap:Body></soap:Envelope>'
             txn1 = util.jsonPathToValue(req.body,reqPath);
             auth1= evaluate.generateKlikPayAuthKey(req);
             console.log("klikPayRequestBodySOAP txn1 "+txn1);
