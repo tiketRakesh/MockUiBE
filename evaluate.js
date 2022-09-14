@@ -162,7 +162,14 @@ module.exports =
             let result = body.replace("txn1", txn1).replace("auth1",auth1);
             return result;
             
-      }
+      },
+      valueFromPathParam : function(req,index){
+            var url =req.originalUrl;
+            url =url.split("/")
+            console.log("printing the path value");
+            console.log(url[index]);
+            return url[index];
+      }	
 }
 
 
