@@ -169,6 +169,15 @@ module.exports =
             console.log("printing the path value");
             console.log(url[index]);
             return url[index];
+      },
+      appendTextToRedirectUrlBilipay : function(req,req_key){
+            var url ='https://dompetqa1-api.mcdomo.id/blipay/member?token=ea484cb7-de70-4ba2-a6a7-b0f484a0563b&';
+            var id = jsonQ(JSON.stringify(req.body));
+            val = id.find(req_key).value();
+            let result = url.concat(val);
+            console.log("printing the value of redirect url ");
+            console.log(result);
+            return result;
       }	
 }
 
