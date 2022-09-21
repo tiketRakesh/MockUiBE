@@ -171,14 +171,29 @@ module.exports =
             return url[index];
       },
       appendTextToRedirectUrlBilipay : function(req,req_key){
-            var url ='https://dompetqa1-api.mcdomo.id/blipay/member?token=ea484cb7-de70-4ba2-a6a7-b0f484a0563b&';
+            var url ='https://m.gatotkaca.tiket.com/usp/blipay/mock?token=123&';
             var id = jsonQ(JSON.stringify(req.body));
             val = id.find(req_key).value();
             let result = url.concat(val);
             console.log("printing the value of redirect url ");
             console.log(result);
             return result;
-      }	
+      },
+      generateGopaySignature : function(req){
+            const statusCode = '200'
+            const serverKey = 'SB-Mid-server-2DiXmQDUOc30sQT24mUBAB16'
+            const algorithm = 'sha512'
+            const digest = 'hex'
+            var id = jsonQ(JSON.stringify(req.body));
+            orderId = id.find('order_id').value();
+            grossAmount = id.find('gross_amount').value();
+            console.log("printing the value of order id and grossamount for method  generateBlipaySignature");
+            console.log(orderId);
+            console.log(grossAmount);
+            let input = orderId + statusCode + grossAmount + serverKey
+            let signature = crypto.createHash(algorithm).update(input).digest(digest)
+            return signature
+      }
 }
 
 

@@ -159,7 +159,7 @@ prepareResponseObjectAndCheckForCallback :function (req,res, mock,responseHeader
     }
     dynamicResponselength =mocks[index].dynamicResponse.length;
     if(dynamicResponselength>0){
-      matchedValue.responseSuccessData=updateResponseBody(req,mock ,dynamicResponselength)
+      matchedValue.responseSuccessData=matcherUtil.updateResponseBody(req,mock ,dynamicResponselength)
     }
 
     console.log(mock.callBack.length);
