@@ -193,7 +193,11 @@ module.exports =
             let input = orderId + statusCode + grossAmount + serverKey
             let signature = crypto.createHash(algorithm).update(input).digest(digest)
             return signature
-      }
+      },
+      mapValueFromQueryParamToResponseBody : function(req,key){
+            const value =req.query[key]
+            return value
+      }	
 }
 
 
