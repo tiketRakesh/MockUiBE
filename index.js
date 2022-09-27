@@ -20,7 +20,7 @@ var appendPointDataSetConfig = function appendPointDataSetConfig(req, res, start
         queryParamLength = mocks[i].qparams.length;
         requestBodyLength =mocks[i].requestBody.length
         responseHeadersLength=mocks[i].responseHeaders.length
-  
+        contentType=mocks[i].contentType
         if(headersLength>0 && queryParamLength>0 && requestBodyLength>0){
             headerMatched= matcherUtil.headersMatched(req,headersLength,mocks[i])
             qParamMatched= matcherUtil.qParamMatched(req,queryParamLength,mocks[i])
