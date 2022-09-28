@@ -30,7 +30,7 @@ reqBodyMatched :function (req,requestBodyLength, mock) {
         //console.log("test " +mocks[i].requestBody)
         path = mock.requestBody[k].path
         expectedValue = mock.requestBody[k].value
-        if(mock.contentType=='application/xml'){
+        if(mock.contentType=='text/xml'){
              json =JSON.stringify(req.body)
              console.log(json)
         }
@@ -45,7 +45,7 @@ reqBodyMatched :function (req,requestBodyLength, mock) {
 updateResponseBody :function (req, mock, dynamicResponselength) {
         //console.log("test " +mocks[i].requestBody)
         fileExtension="";    
-        if(mock.contentType=='application/xml'){
+        if(mock.contentType=='text/xml'){
              //need to fix the xml part
              fileExtension='xml';
              vauleToUpdate =util.xmlPathToValue(req.body,reqPath);
@@ -78,7 +78,7 @@ updateRequestBodyCallback :function (req, mock, dynamicRequestCBlength) {
     
     //to do 
     // change the if condition , it should not be on content type .. as most of the code in if and else condition is repeating 
-    if(mock.contentType=='application/xml'){
+    if(mock.contentType=='text/xml'){
          //need to fix the xml part
          fileExtension='xml';
          json = JSON.parse(parser.toJson(mock.callBack[0].requestBody, {reversible: true,sanitize: true})); 
